@@ -1,23 +1,21 @@
 FROM eclipse-temurin:21-jdk
 
-# Install dependencies for headless Minecraft
 RUN apt-get update && \
-    apt-get install -y xvfb libxext6 libxrender1 libxtst6 libxi6 libgl1-mesa-glx && \
+    apt-get install -y xvfb libxext6 libxrender1 libxtst6 libxi6 libgl1 curl && \
     rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 
-# Copy entire repo
 COPY . .
 
-# Build the mod inside Docker
+# Install Fabric client
+RUN java -jar fabric-installer.jar client -mcversion 1.21.1 -downloadMinecraft
+
+# Build your mod
 RUN ./gradlew build --no-daemon
 
-# Create mods folder
+# Copy mod into Minecraft mods folder
 RUN mkdir -p /root/.minecraft/mods
-
-# Copy built jar into Minecraft mods
 RUN cp build/libs/*.jar /root/.minecraft/mods/
 
-# Start script
 CMD bash run.sh

@@ -4,7 +4,9 @@ echo "Starting virtual display..."
 Xvfb :99 -screen 0 1024x768x16 &
 export DISPLAY=:99
 
-echo "Starting Minecraft..."
+echo "Launching Fabric Minecraft..."
+
+cd /root/.minecraft
 
 java \
   -Xmx2G \
