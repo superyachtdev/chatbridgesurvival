@@ -16,10 +16,10 @@ if [ ! -d versions ]; then
     -downloadMinecraft
 fi
 
-echo "Launching Minecraft CLIENT..."
+echo "Launching Fabric client..."
 
-java \
-  -Xmx2G \
+FABRIC_JAR=$(find versions -name "fabric-loader-*.jar" | head -n 1)
+
+java -Xmx2G \
   -Dorg.lwjgl.opengl.Display.allowSoftwareOpenGL=true \
-  -cp "$(echo libraries/*/*.jar | tr ' ' ':'):versions/*/*.jar" \
-  net.fabricmc.loader.impl.launch.knot.KnotClient
+  -jar "$FABRIC_JAR"
