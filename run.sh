@@ -7,18 +7,28 @@ export DISPLAY=:99
 
 cd /root/.minecraft
 
-# Install Fabric CLIENT if not installed
-if [ ! -d versions ]; then
+# Force install Fabric CLIENT if not present
+if [ ! -d "versions/fabric-loader-0.18.4-1.21.1" ]; then
   echo "Installing Fabric CLIENT..."
+
   java -jar /app/fabric-installer.jar client \
     -mcversion 1.21.1 \
+    -loader 0.18.4 \
     -dir /root/.minecraft \
     -downloadMinecraft
 fi
 
-echo "Launching Fabric client..."
+echo "Checking for Fabric client jar..."
 
-FABRIC_JAR=$(find versions -name "fabric-loader-*.jar" | head -n 1)
+FABRIC_JAR=$(find versions -type f -name "fabric-loader-*.jar" | head -n 1)
+
+if [ -z "$FABRIC_JAR" ]; then
+  echo "❌ Fabric client jar not found!"
+  ls -R versions
+  exit 1
+fi
+
+echo "Launching Fabric client using $FABRIC_JAR"
 
 java -Xmx2G \
   -Dorg.lwjgl.opengl.Display.allowSoftwareOpenGL=true \
