@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "id": "watchtowerbridge",
+  "version": "1.0.0",
+  "name": "Watchtower Bridge",
+  "environment": "client",
+  "entrypoints": {
+    "client": [
+      "com.watchtower.bridge.WatchtowerBridgeClient"
+    ]
+  },
+  "depends": {
+    "fabricloader": ">=0.18.4",
+    "minecraft": "~1.21.10",
+    "fabric-api": "*"
+  }
+}
